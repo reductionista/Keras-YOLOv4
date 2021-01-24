@@ -43,10 +43,11 @@ use_gpu = args.use_gpu
 
 # 显存分配
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto()
+from tensorflow.compat.v1.keras.backend import set_session
+config = tf.compat.v1.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 1.0
-set_session(tf.Session(config=config))
+sess = tf.compat.v1.Session(config=config)
+set_session(sess)
 
 
 
@@ -184,6 +185,7 @@ if __name__ == '__main__':
     outputs = yolo.get_outputs(x)
     preds = yolo.get_prediction(outputs, im_size)
     predict_model = keras.models.Model(inputs=[x, im_size], outputs=preds)
+    predict_model.summary()
 
     # train_model
     anchor_masks = cfg.gt2YoloTarget['anchor_masks']

@@ -10,9 +10,9 @@
 import tensorflow as tf
 import numpy as np
 import copy
-import keras
-import keras.backend as K
-from keras.engine.topology import Layer
+from tensorflow import keras
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.engine.base_layer import Layer
 
 from model.custom_layers import Conv2dUnit, SPP
 from model.fast_nms import fast_nms
@@ -192,7 +192,7 @@ class DropBlock(Layer):
             return input
 
         # If the learning phase is *static* and set to inference:
-        if training in {0, False}:
+        if not training:  #.eval(session=tf.compat.v1.keras.backend.get_session()) in {0, False}:
             return dropblock_inference()
 
         def CalculateGamma(input, block_size, keep_prob):
@@ -217,7 +217,7 @@ class DropBlock(Layer):
         p = tf.tile(gamma, input_shape)
 
         input_shape_tmp = tf.shape(input)
-        random_matrix = tf.random_uniform(input_shape_tmp)
+        random_matrix = tf.compat.v1.keras.initializers.random_uniform(input_shape_tmp)
         one_zero_m = tf.cast(random_matrix < p, tf.float32)
 
         mask_flag = K.pool2d(one_zero_m, (self.block_size, self.block_size), strides=(1, 1), padding='same', pool_mode='max')

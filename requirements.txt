@@ -4,3 +4,5 @@ pip install keras==2.2.5 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install pydot -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install cython -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install pycocotools -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install --user cv2_tools
+pip install Pillow

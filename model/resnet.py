@@ -7,7 +7,7 @@
 #   Description : keras_ppyolo
 #
 # ================================================================
-import keras
+from tensorflow import keras
 from model.custom_layers import Conv2dUnit
 
 
